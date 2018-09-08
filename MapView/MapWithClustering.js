@@ -34,8 +34,10 @@ export default class MapWithClustering extends Component {
   }
 
   onRegionChangeComplete = (region) => {
+    if(this.props.onRegionChangeComplete)
+      this.props.onRegionChangeComplete(region);
     const { latitude, latitudeDelta, longitude, longitudeDelta } = this.state.currentRegion;
-    if (region.longitudeDelta <= 80) {
+    if (region.longitudeDelta <= 60) {
       if ((Math.abs(region.latitudeDelta - latitudeDelta) > latitudeDelta / 8)
         || (Math.abs(region.longitude - longitude) >= longitudeDelta / 5)
         || (Math.abs(region.latitude - latitude) >= latitudeDelta / 5)) {
@@ -49,7 +51,7 @@ export default class MapWithClustering extends Component {
     const otherChildren = [];
 
     React.Children.forEach(this.props.children, (marker) => {
-      if (marker.props && marker.props.coordinate) {
+      if (marker.props && marker.props.coordinate && !marker.props.currentLocation) {
         markers.push({
           marker,
           properties: { point_count: 0 },
