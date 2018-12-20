@@ -131,7 +131,7 @@ export default class MapWithClustering extends Component {
         clusterTextStyle={this.state.clusterTextStyle}
         marker={cluster.properties.point_count === 0 ? cluster.marker : null}
         key={JSON.stringify(cluster.geometry) + cluster.properties.cluster_id + cluster.properties.point_count}
-        onClusterPress={this.props.onClusterPress}
+        onClusterPress={()=>this.props.onClusterPress({zoom, markers: this.superCluster.getLeaves(cluster.properties.cluster_id,100,0).map(m=>m.marker)})}
       />));
     } else {
       clusteredMarkers = this.state.markers.map(marker => marker.marker);
